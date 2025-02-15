@@ -18,9 +18,9 @@ void display_init(void)
     Log.info("%s [%d]: dev module start\r\n", __FILE__, __LINE__);
     DEV_Module_Init();
     Log.info("%s [%d]: dev module end\r\n", __FILE__, __LINE__);
-
+    
     Log.info("%s [%d]: screen hw start\r\n", __FILE__, __LINE__);
-    EPD_7IN5_V2_Init_New();
+    EPD_2IN9_V2_Init();
     Log.info("%s [%d]: screen hw end\r\n", __FILE__, __LINE__);
 }
 
@@ -32,7 +32,7 @@ void display_init(void)
 void display_reset(void)
 {
     Log.info("%s [%d]: e-Paper Clear start\r\n", __FILE__, __LINE__);
-    EPD_7IN5_V2_Clear();
+    EPD_2IN9_V2_Clear();
     Log.info("%s [%d]:  e-Paper Clear end\r\n", __FILE__, __LINE__);
     // DEV_Delay_ms(500);
 }
@@ -43,7 +43,7 @@ void display_reset(void)
  */
 uint16_t display_height()
 {
-    return EPD_7IN5_V2_HEIGHT;
+    return EPD_2IN9_V2_HEIGHT;
 }
 
 /**
@@ -52,7 +52,7 @@ uint16_t display_height()
  */
 uint16_t display_width()
 {
-    return EPD_7IN5_V2_WIDTH;
+    return EPD_2IN9_V2_WIDTH;
 }
 
 /**
@@ -79,7 +79,7 @@ void display_show_image(uint8_t *image_buffer, bool reverse)
     }
     Log.info("%s [%d]: Paint_NewImage %d\r\n", __FILE__, __LINE__, reverse);
     // if (reverse)
-    //     Paint_NewImage(BlackImage, EPD_7IN5_V2_WIDTH, EPD_7IN5_V2_HEIGHT, 0, BLACK);
+    //     Paint_NewImage(BlackImage, EPD_2IN9_V2_WIDTH, EPD_2IN9_V2_HEIGHT, 0, BLACK);
     // else
     
     Paint_NewImage(BlackImage, width, height, 0, WHITE);
@@ -96,7 +96,7 @@ void display_show_image(uint8_t *image_buffer, bool reverse)
         }
     }
     Paint_DrawBitMap(image_buffer + 62);
-    EPD_7IN5_V2_Display(BlackImage);
+    EPD_2IN9_V2_Display(BlackImage);
     Log.info("%s [%d]: display\r\n", __FILE__, __LINE__);
 
     free(BlackImage);
@@ -239,7 +239,7 @@ void display_show_msg(uint8_t *image_buffer, MSG message_type)
         break;
     }
 
-    EPD_7IN5_V2_Display(BlackImage);
+    EPD_2IN9_V2_Display(BlackImage);
     Log.info("%s [%d]: display\r\n", __FILE__, __LINE__);
     free(BlackImage);
     BlackImage = NULL;
@@ -260,7 +260,7 @@ void display_show_msg(uint8_t *image_buffer, MSG message_type, String friendly_i
     if (message_type == WIFI_CONNECT)
     {
         Log.info("%s [%d]: Display set to white\r\n", __FILE__, __LINE__);
-        EPD_7IN5_V2_ClearWhite();
+        EPD_2IN9_V2_Clear();
         delay(1000);
     }
 
@@ -322,7 +322,7 @@ void display_show_msg(uint8_t *image_buffer, MSG message_type, String friendly_i
         break;
     }
     Log.info("%s [%d]: Start drawing...\r\n", __FILE__, __LINE__);
-    EPD_7IN5_V2_Display(BlackImage);
+    EPD_2IN9_V2_Display(BlackImage);
     Log.info("%s [%d]: display\r\n", __FILE__, __LINE__);
     free(BlackImage);
     BlackImage = NULL;
@@ -336,5 +336,5 @@ void display_show_msg(uint8_t *image_buffer, MSG message_type, String friendly_i
 void display_sleep(void)
 {
     Log.info("%s [%d]: Goto Sleep...\r\n", __FILE__, __LINE__);
-    EPD_7IN5B_V2_Sleep();
+    EPD_2IN9_V2_Sleep();
 }
