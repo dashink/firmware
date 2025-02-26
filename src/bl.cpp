@@ -536,7 +536,7 @@ static https_request_err_e downloadAndShow(const char *url)
 
     Log.info("%s [%d]: Added headers:\n\rID: %s\n\rSpecial function: %d\n\rAccess-Token: %s\n\rRefresh_Rate: %s\n\rBattery-Voltage: %s\n\rFW-Version: %s\r\nRSSI: %s\r\n", __FILE__, __LINE__, WiFi.macAddress().c_str(), special_function, api_key.c_str(), String(refresh_rate).c_str(), String(battery_voltage).c_str(), fw_version.c_str(), String(WiFi.RSSI()));
 
-    if (!https.begin(*client, new_url))
+    if (!https.begin(new_url))
     {
       Log.error("%s [%d]: [HTTPS] Unable to connect\r\n", __FILE__, __LINE__);
       submit_log("unable to connect to the API endpoint");
@@ -549,12 +549,17 @@ static https_request_err_e downloadAndShow(const char *url)
     // start connection and send HTTP header
     https.addHeader("ID", WiFi.macAddress());
     https.addHeader("Access-Token", api_key);
+    // https.addHeader("ID", "ORDER_8744:BETA:C96D26");
+    // https.addHeader("Access-Token", "9bX4cD9tLgNWdEowtJ46Zw");
     https.addHeader("Refresh-Rate", String(refresh_rate));
-    https.addHeader("Battery-Voltage", String(battery_voltage));
+    // https.addHeader("Battery-Voltage", String(battery_voltage));
+    https.addHeader("Battery-Voltage", String(100));
     https.addHeader("FW-Version", fw_version);
     https.addHeader("RSSI", String(WiFi.RSSI()));
-    https.addHeader("Width", String(display_width()));
-    https.addHeader("Height", String(display_height()));
+    // https.addHeader("Width", String(display_width()));
+    // https.addHeader("Height", String(display_height()));
+    https.addHeader("Width", String("800"));
+    https.addHeader("Height", String("480"));
 
     Log.info("%s [%d]: Special function - %d\r\n", __FILE__, __LINE__, special_function);
     if (special_function != SF_NONE)
@@ -1043,7 +1048,7 @@ static https_request_err_e downloadAndShow(const char *url)
       status = false;
 
       Log.info("%s [%d]: [HTTPS] Request to %s\r\n", __FILE__, __LINE__, filename);
-      if (!https.begin(*client, filename)) // HTTPS
+      if (!https.begin(filename)) // HTTPS
       {
         Log.error("%s [%d]: unable to connect\r\n", __FILE__, __LINE__);
 
@@ -1241,13 +1246,14 @@ static void getDeviceCredentials(const char *url)
       char new_url[200];
       strcpy(new_url, url);
       strcat(new_url, "/api/setup/");
-      if (https.begin(*client, new_url))
+      if (https.begin(new_url))
       { // HTTPS
         Log.info("%s [%d]: RSSI: %d\r\n", __FILE__, __LINE__, WiFi.RSSI());
         Log.info("%s [%d]: [HTTPS] GET...\r\n", __FILE__, __LINE__);
         // start connection and send HTTP header
 
         https.addHeader("ID", WiFi.macAddress());
+        // https.addHeader("ID", "ORDER_8744:BETA:C96D26");
         Log.info("%s [%d]: Device MAC address: %s\r\n", __FILE__, __LINE__, WiFi.macAddress().c_str());
 
         int httpCode = https.GET();
@@ -1360,7 +1366,7 @@ static void getDeviceCredentials(const char *url)
         Log.info("%s [%d]: filename - %s\r\n", __FILE__, __LINE__, filename);
 
         Log.info("%s [%d]: [HTTPS] Request to %s\r\n", __FILE__, __LINE__, filename);
-        if (https.begin(*client, filename))
+        if (https.begin(filename))
         { // HTTPS
           Log.info("%s [%d]: [HTTPS] GET..\r\n", __FILE__, __LINE__);
           // start connection and send HTTP header
@@ -1498,7 +1504,7 @@ static void checkAndPerformFirmwareUpdate(void)
   {
     client->setInsecure();
     HTTPClient https;
-    if (https.begin(*client, binUrl))
+    if (https.begin(binUrl))
     {
       int httpCode = https.GET();
       if (httpCode == HTTP_CODE_OK)

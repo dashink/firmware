@@ -23,7 +23,7 @@ bool submitLogToApi(LogApiInput &input, const char *api_url)
       strcpy(new_url, api_url);
       strcat(new_url, "/api/log");
       
-      if (https.begin(*client, new_url))
+      if (https.begin(new_url))
       { // HTTPS
         Log_info("[HTTPS] POST...");
 
