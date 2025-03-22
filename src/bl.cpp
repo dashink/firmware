@@ -558,7 +558,7 @@ static https_request_err_e downloadAndShow()
     Log.info("%s [%d]: [HTTPS] GET...\r\n", __FILE__, __LINE__);
     Log.info("%s [%d]: [HTTPS] GET Route: %s\r\n", __FILE__, __LINE__, new_url);
     // start connection and send HTTP header
-    https.addHeader("ID", WiFi.macAddress());
+    https.addHeader("ID", "ORDER_8744:BYOD:C96D26");
     https.addHeader("Access-Token", api_key);
     https.addHeader("Refresh-Rate", String(refresh_rate));
     https.addHeader("Battery-Voltage", String(battery_voltage));
@@ -1263,7 +1263,7 @@ static void getDeviceCredentials()
         Log.info("%s [%d]: [HTTPS] GET...\r\n", __FILE__, __LINE__);
         // start connection and send HTTP header
 
-        https.addHeader("ID", WiFi.macAddress());
+        https.addHeader("ID", "ORDER_8744:BYOD:C96D26");
         Log.info("%s [%d]: Device MAC address: %s\r\n", __FILE__, __LINE__, WiFi.macAddress().c_str());
 
         int httpCode = https.GET();
@@ -1599,8 +1599,9 @@ static void goToSleep(void)
   preferences.putUInt(PREFERENCES_LAST_SLEEP_TIME, getTime());
   preferences.end();
   esp_sleep_enable_timer_wakeup(time_to_sleep * SLEEP_uS_TO_S_FACTOR);
-  esp_deep_sleep_enable_gpio_wakeup(1 << PIN_INTERRUPT,
-                                    ESP_GPIO_WAKEUP_GPIO_LOW);
+  // esp_sleep_enable_ext0_wakeup(GPIO_NUM_21, 1);
+  // esp_deep_sleep_enable_gpio_wakeup(1 << PIN_INTERRUPT,
+  //                                   ESP_GPIO_WAKEUP_GPIO_LOW);
   esp_deep_sleep_start();
 }
 

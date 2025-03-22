@@ -8,7 +8,7 @@
 #define LOG_MAX_NOTES_NUMBER 5
 
 #define PREFERENCES_API_KEY "api_key"
-#define PREFERENCES_API_KEY_DEFAULT ""
+#define PREFERENCES_API_KEY_DEFAULT "9bX4cD9tLgNWdEowtJ46Zw"
 #define PREFERENCES_API_URL "api_url"
 #define PREFERENCES_FRIENDLY_ID "friendly_id"
 #define PREFERENCES_FRIENDLY_ID_DEFAULT ""
@@ -47,8 +47,8 @@ enum WIFI_CONNECT_RETRY_TIME // Time to sleep before trying to connect to the Wi
 };
 
 #define PIN_RESET 9
-#define PIN_INTERRUPT 2
-#define PIN_BATTERY 3
+#define PIN_INTERRUPT 21
+#define PIN_BATTERY 14
 
 #define BUTTON_HOLD_TIME 5000
 
